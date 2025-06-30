@@ -4,16 +4,16 @@ import pyttsx3
 import musiclibrary
 import requests
 import google.generativeai as genai 
-#from gtts import gTTS
-#import pygame
-#import os
+from gtts import gTTS
+import pygame
+import os
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
-newsapi="3d050a0821ad4c7ea44be62b52d1cfdb"
-def speak(text):
+newsapi="Your newsapi key"
+def speak_old(text):
     engine.say(text)
     engine.runAndWait( )
-'''
+
 def speak(text):
     tts = gTTS(text)
     tts.save('temp.mp3')
@@ -28,9 +28,9 @@ def speak(text):
         pygame.time.Clock().tick(0.1)
     pygame.mixer.music.unload()
     os.remove("temp.mp3")
-'''
+
 def aiprocess(command):
-    genai.configure(api_key="AIzaSyCFpRJSroVzLN3Ik_AEBFl1OJsrfUf8biM")
+    genai.configure(api_key="Your api key")
     model = genai.GenerativeModel("gemini-2.5-flash")
     response = model.generate_content(command)
     return response.text
@@ -53,7 +53,7 @@ def processCommand(c):
         link = musiclibrary.music[song]
         webbrowser.open(link)
     elif "news" in c.lower():
-        r = requests.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=3d050a0821ad4c7ea44be62b52d1cfdb")
+        r = requests.get("https://newsapi.org/v2/top-headlines?country=us&apiKey={newsapi}")
         #Parse the JSON response
         data = r.json()
         if data["status"] == "ok":
