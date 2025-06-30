@@ -1,7 +1,7 @@
 import google.generativeai as genai
 
 genai.configure(
-    api_key="AIzaSyDxNEuW5hLyOTDsCL9ypYvJF116bVh3Pcs"
+    api_key="Your api key"
 )
 model = genai.GenerativeModel("gemini-1.5-flash") 
 chat_log=''''''
