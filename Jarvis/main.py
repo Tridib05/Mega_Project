@@ -16,11 +16,13 @@ from gtts import gTTS                           # For Google TTS
 import pygame                                   # For playing mp3
 import os                                       # For file operations
 
+#pip install pocketsphinx
+
 recognizer = sr.Recognizer()   # Initialize speech recognizer
 engine = pyttsx3.init()    # Initialize TTS engine                
 newsapi="Your Api key"                                  
 
-def speak(text):
+def speak_old(text):
     """
     Speaks the given text using pyttsx3 (offline, fast).
     """
@@ -35,18 +37,20 @@ def speak(text):
     tts.save('temp.mp3')                             
     pygame.mixer.init()             
     pygame.mixer.music.load('temp.mp3')          
-    pygame.mixer.music.play()           
+    pygame.mixer.music.play()
+    # Wait until playback finishes
     while pygame.mixer.music.get_busy():            
         pygame.time.Clock().tick(0.1)           
     pygame.mixer.music.unload()         
-    os.remove("temp.mp3")  
+    os.remove("temp.mp3")      # Clean up the temporary file after playback
+
      
 
 def aiprocess(command):
     """     
     Sends the command to Gemini AI and returns the response text.
     """
-    genai.configure(api_key="")      
+    genai.configure(api_key="")      # Replace with your actual API key    
     model = genai.GenerativeModel("gemini-2.5-flash")           
     response = model.generate_content(command)              
     return response.text                
@@ -73,11 +77,13 @@ def processCommand(c):
         webbrowser.open(link)       
     elif "news" in c.lower():           
         r = requests.get("https://newsapi.org/v2/top-headlines?country=us&apiKey={newsapi")
+        # If the request was successful, parse the JSON response
         data = r.json()
         if data["status"] == "ok":
             print("Top US Headlines:\n")            
             for i, article in enumerate(data["articles"]):      
                 speak(f"{i+1}. {article['title']}")         
+    #gemini handle the request
     else: 
         output = aiprocess(c)                   
         speak(output)
@@ -88,6 +94,8 @@ if __name__== '__main__':
         #obtain audio from the microphone
         r = sr.Recognizer()
         print("Recognizing....")
+        # recognize speech using Google Speech Recognition
+        # If you want to use a different recognizer, you can replace `recognizer`
         try:
             with sr.Microphone() as source:
                 print("Listening...")
