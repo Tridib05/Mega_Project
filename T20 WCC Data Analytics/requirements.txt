@@ -1,0 +1,10 @@
+# requirements.txt for T20 World Cup Cricket Data Analytics
+# Specify exact versions for reproducibility
+pandas==2.2.2
+matplotlib==3.8.4
+# tkinter is included with standard Python installations (no need to install via pip)
+# If you want to mention the version, it matches your Python version (e.g., Python 3.11 => tkinter 3.11)
+# Example: tkinter (comes with Python 3.11.8)
+# messagebox is part of tkinter
+# No need to list import statements or code here
+# Only list actual pip-installable packages
